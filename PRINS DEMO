@@ -1,0 +1,151 @@
+paquete  principal ;
+importar  Java . awt _ lienzo ;
+importar  Java . awt _ color ;
+importar  Java . awt _ Dimensión ;
+importar  Java . awt _ gráficos ;
+importar  Java . awt _ imagen _ BufferStrategy ;
+
+importar  javax . columpio _ JFrame ;
+
+ ventana de clase  pública extiende JFrame implementa Runnable {    
+	
+	public  static  final  int  ANCHO = 800 , ALTO = 600 ;
+	 lienzo  lienzo privado ;
+	 Subproceso  privado subproceso ;
+	 ejecución booleana  privada = falso ;
+	
+	 BufferStrategy  privado bs ;
+	 gráficos  privados g ;
+	
+	privado  final  int  FPS = 60 ;
+	privado  doble  TARGETTIME = 1000000000 / FPS ;
+	 delta doble  privado = 0 ;
+	privado  int  PROMEDIOFPS = FPS ;
+	
+	 ventana pública ()
+	{
+		setTitle ( "Juego de nave espacial" );
+		setSize ( ANCHO , ALTO );
+		setDefaultCloseOperation ( JFrame . EXIT_ON_CLOSE );
+		setRedimensionable ( falso );
+		setLocationRelativeTo ( null );
+		setVisible ( verdadero );
+		
+		lienzo = lienzo nuevo  ();
+		
+		lona _ setPreferredSize ( nueva  Dimensión ( ANCHO , ALTO ));
+		lona _ setMaximumSize ( nueva  Dimensión ( ANCHO , ALTO ));
+		lona _ setMinimumSize ( nueva  Dimensión ( ANCHO , ALTO ));
+		lona _ setEnfocable ( verdadero );
+		
+		añadir ( lienzo );
+		
+	}
+	
+	
+
+	public  static  void  main ( String [] args ) {
+		nueva  ventana (). inicio ();
+	}
+	
+	
+	int  x = 0 ;
+	 actualización de vacío  privado (){
+		x ++;
+	}
+
+	 sorteo de vacío  privado (){
+		bs = lienzo . getBufferStrategy ();
+		
+		si ( bs == nulo )
+		{
+			lona _ createBufferStrategy ( 3 );
+			volver ;
+		}
+		
+		g = bs . obtenerDibujarGráficos ();
+		
+		//-----------------------
+		
+		g . clearRect ( 0 , 0 , ANCHO , ALTO );
+		
+		g . setColor ( Color . NEGRO );
+		
+		g . dibujarCadena ( "" + FPS PROMEDIO , 10 , 20 );
+		
+		//-------------------------------------
+		g . disponer ();
+		bs . mostrar ();
+	}
+	
+	
+	@ anular
+	 ejecución de vacío  público () {
+		
+		largo  ahora = 0 ;
+		long  lastTime = System . nanoTiempo ();
+		 marcos int = 0 ;
+		mucho  tiempo = 0 ;
+		
+		mientras ( corriendo )
+		{
+			ahora = Sistema . nanoTiempo ();
+			delta += ( ahora - lastTime )/ TARGETTIME ;
+			tiempo += ( ahora - lastTime );
+			ultima hora = ahora ;
+			
+			
+			
+			si ( delta >= 1 )
+			{		
+				actualizar ();
+				dibujar ();
+				delta— ;
+				fotogramas ++;
+			}
+			si ( tiempo >= 1000000000 )
+			{
+				PROMEDIOFPS = fotogramas ;
+				marcos = 0 ;
+				tiempo = 0 ;
+				
+			}
+			
+			
+		}
+		
+		detener ();
+	}
+	
+	 inicio vacío  privado (){
+		
+		hilo = hilo nuevo  ( este );
+		hilo _ inicio ();
+		corriendo = verdadero ;
+		
+		
+	}
+	 parada de vacío  privada (){
+		prueba {
+			hilo _ unirse ();
+			corriendo = falso ;
+		} captura ( Excepción interrumpida  e ) {
+			mi . imprimirStackTrace ();
+		}
+	}
+	
+	
+	
+}
+© 2022 GitHub, Inc.
+Términos
+Privacidad
+Seguridad
+Estado
+Documentos
+Póngase en contacto con GitHub
+Precios
+API
+Capacitación
+Blog
+Sobre
